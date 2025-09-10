@@ -1,46 +1,125 @@
-# Getting Started with Create React App
+# 🍅 Pomodoro Timer App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Une application web React moderne et élégante pour appliquer la technique Pomodoro et améliorer votre productivité.
 
-## Available Scripts
+## 📋 Fonctionnalités
 
-In the project directory, you can run:
+- **Timer Pomodoro complet** : 25 minutes de travail, 5 minutes de pause courte
+- **Pauses longues** : 20 minutes de pause après 4 sessions de travail
+- **Interface visuelle attrayante** : Design moderne avec animations et gradients
+- **Indicateur de progression** : Cercle de progression animé
+- **Compteur de sessions** : Visualisation des sessions complétées
+- **Notifications** : Alertes visuelles et notifications du navigateur
+- **Contrôles intuitifs** : Boutons pour démarrer, mettre en pause, réinitialiser et passer
+- **Design responsive** : Optimisé pour desktop et mobile
+- **Changements de thème** : Couleurs différentes pour travail et pauses
 
-### `npm start`
+## 🚀 Installation et utilisation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Prérequis
+- Node.js (version 14 ou supérieure)
+- npm ou yarn
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Installation
+```bash
+# Cloner le projet
+git clone <url-du-repo>
+cd pomodoro-app
 
-### `npm test`
+# Installer les dépendances
+npm install
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Lancer l'application en mode développement
+npm start
+```
 
-### `npm run build`
+L'application sera disponible sur `http://localhost:3000`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Build de production
+```bash
+npm run build
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🎯 La technique Pomodoro
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+La technique Pomodoro est une méthode de gestion du temps développée par Francesco Cirillo :
 
-### `npm run eject`
+1. **25 minutes de travail concentré** (Pomodoro)
+2. **5 minutes de pause courte**
+3. **Répéter 4 fois**
+4. **20 minutes de pause longue**
+5. **Recommencer le cycle**
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🛠️ Technologies utilisées
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **React** avec TypeScript
+- **CSS3** avec animations et gradients
+- **Hooks React** (useState, useEffect, useCallback)
+- **API Notifications** du navigateur
+- **Design responsive** avec CSS Grid et Flexbox
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 📱 Fonctionnalités détaillées
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Timer intelligent
+- Décompte automatique avec affichage temps réel
+- Gestion automatique des transitions entre sessions
+- Sauvegarde de l'état actuel
 
-## Learn More
+### Interface utilisateur
+- Cercle de progression animé
+- Indicateurs visuels des sessions complétées
+- Changements de couleur selon le type de session
+- Animations fluides et transitions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Notifications
+- Notifications du navigateur à la fin de chaque session
+- Messages informatifs sur l'état du timer
+- Demande de permission pour les notifications
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Contrôles
+- **Démarrer/Pause** : Contrôle du timer
+- **Réinitialiser** : Retour au début du cycle
+- **Passer** : Passer à la session suivante
+- **Démarrage automatique** : Option pour la session suivante
+
+## 🎨 Personnalisation
+
+Le design utilise des variables CSS et peut être facilement personnalisé :
+
+- **Couleurs des sessions** : Modifiables dans `PomodoroTimer.css`
+- **Durées** : Configurables dans les constantes du composant
+- **Animations** : Personnalisables via les classes CSS
+
+## 📦 Structure du projet
+
+```
+src/
+├── components/
+│   ├── PomodoroTimer.tsx    # Composant principal
+│   └── PomodoroTimer.css    # Styles du timer
+├── App.tsx                  # Composant racine
+├── App.css                  # Styles globaux
+└── index.css               # Styles de base
+```
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité
+3. Commiter vos changements
+4. Pusher vers la branche
+5. Ouvrir une Pull Request
+
+## 📄 Licence
+
+Ce projet est sous licence MIT.
+
+## 🙋‍♂️ Support
+
+Pour toute question ou suggestion, n'hésitez pas à ouvrir une issue ou à me contacter.
+
+---
+
+**Bonne productivité avec votre timer Pomodoro ! 🍅✨**
