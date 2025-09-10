@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './PomodoroTimer.css';
 import Settings, { TimerSettings } from './Settings';
+import { useNotifications } from '../hooks/useNotifications';
 
 interface PomodoroState {
   timeLeft: number;
@@ -18,12 +19,15 @@ const DEFAULT_SESSIONS_BEFORE_LONG_BREAK = 4;
 const AUTO_START_DELAY = 5; // 5 seconds delay before auto-start
 
 const PomodoroTimer: React.FC = () => {
+  const { requestPermission, showNotification } = useNotifications();
+  
   const [settings, setSettings] = useState<TimerSettings>({
     workDuration: DEFAULT_WORK_TIME,
     shortBreakDuration: DEFAULT_SHORT_BREAK_TIME,
     longBreakDuration: DEFAULT_LONG_BREAK_TIME,
     sessionsBeforeLongBreak: DEFAULT_SESSIONS_BEFORE_LONG_BREAK,
-    autoStart: true
+    autoStart: true,
+    soundNotifications: true
   });
 
   const [showSettings, setShowSettings] = useState(false);
@@ -147,19 +151,23 @@ const PomodoroTimer: React.FC = () => {
         autoStartCountdown: AUTO_START_DELAY
       }));
       
-      // Play notification sound (browser notification)
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification(`${state.sessionType === 'work' ? 'Work' : 'Break'} session completed!`, {
-          body: `Next session starts automatically in ${AUTO_START_DELAY} seconds`,
-          icon: '/favicon.ico'
-        });
-      }
+      // Notification audio et visuelle
+      const nextType = getNextSessionType(state.currentSession, state.sessionType);
+      showNotification({
+        title: `${state.sessionType === 'work' ? 'Work' : 'Break'} session completed! 🎉`,
+        body: settings.autoStart 
+          ? `Next session (${nextType === 'work' ? 'Work' : 'Break'}) starts automatically in ${AUTO_START_DELAY} seconds`
+          : `Ready for the next ${nextType === 'work' ? 'work' : 'break'} session?`,
+        icon: '/favicon.ico',
+        playSound: settings.soundNotifications,
+        soundType: state.sessionType === 'work' ? 'work' : 'break'
+      });
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [state.isRunning, state.timeLeft, state.isSessionComplete, state.sessionType]);
+  }, [state.isRunning, state.timeLeft, state.isSessionComplete, state.sessionType, state.currentSession, getNextSessionType, settings.autoStart, settings.soundNotifications, showNotification]);
 
   // Auto-start countdown effect
   useEffect(() => {
@@ -190,10 +198,8 @@ const PomodoroTimer: React.FC = () => {
 
   // Request notification permission on component mount
   useEffect(() => {
-    if ('Notification' in window && Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-  }, []);
+    requestPermission();
+  }, [requestPermission]);
 
   const getSessionLabel = (): string => {
     switch (state.sessionType) {
@@ -328,6 +334,7 @@ const PomodoroTimer: React.FC = () => {
           longBreakDuration={settings.longBreakDuration}
           sessionsBeforeLongBreak={settings.sessionsBeforeLongBreak}
           autoStart={settings.autoStart}
+          soundNotifications={settings.soundNotifications}
           onSave={handleSettingsUpdate}
           onClose={() => setShowSettings(false)}
         />

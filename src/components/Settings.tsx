@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Settings.css';
+import { useNotifications } from '../hooks/useNotifications';
 
 interface SettingsProps {
   workDuration: number;
@@ -7,6 +8,7 @@ interface SettingsProps {
   longBreakDuration: number;
   sessionsBeforeLongBreak: number;
   autoStart: boolean;
+  soundNotifications: boolean;
   onSave: (settings: TimerSettings) => void;
   onClose: () => void;
 }
@@ -17,6 +19,7 @@ export interface TimerSettings {
   longBreakDuration: number;
   sessionsBeforeLongBreak: number;
   autoStart: boolean;
+  soundNotifications: boolean;
 }
 
 const Settings: React.FC<SettingsProps> = ({
@@ -25,15 +28,19 @@ const Settings: React.FC<SettingsProps> = ({
   longBreakDuration,
   sessionsBeforeLongBreak,
   autoStart,
+  soundNotifications,
   onSave,
   onClose
 }) => {
+  const { showNotification } = useNotifications();
+  
   const [settings, setSettings] = useState<TimerSettings>({
     workDuration: workDuration / 60, // Convert seconds to minutes for display
     shortBreakDuration: shortBreakDuration / 60,
     longBreakDuration: longBreakDuration / 60,
     sessionsBeforeLongBreak,
-    autoStart
+    autoStart,
+    soundNotifications
   });
 
   const handleInputChange = (field: keyof TimerSettings, value: number | boolean) => {
@@ -61,7 +68,18 @@ const Settings: React.FC<SettingsProps> = ({
       shortBreakDuration: 5,
       longBreakDuration: 20,
       sessionsBeforeLongBreak: 4,
-      autoStart: true
+      autoStart: true,
+      soundNotifications: true
+    });
+  };
+
+  const testNotification = () => {
+    showNotification({
+      title: '🎉 Test Notification',
+      body: 'This is how notifications will sound and look!',
+      icon: '/favicon.ico',
+      playSound: settings.soundNotifications,
+      soundType: 'work'
     });
   };
 
@@ -145,6 +163,26 @@ const Settings: React.FC<SettingsProps> = ({
               <span className="setting-icon">⚡</span>
               Auto-start next session
             </label>
+          </div>
+
+          <div className="setting-group checkbox-group">
+            <label htmlFor="sound-notifications" className="checkbox-label">
+              <input
+                id="sound-notifications"
+                type="checkbox"
+                checked={settings.soundNotifications}
+                onChange={(e) => handleInputChange('soundNotifications', e.target.checked)}
+              />
+              <span className="setting-icon">🔊</span>
+              Sound notifications
+            </label>
+            <button 
+              className="test-notification-btn"
+              onClick={testNotification}
+              type="button"
+            >
+              🎵 Test Sound
+            </button>
           </div>
         </div>
 
